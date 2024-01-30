@@ -167,10 +167,10 @@ function GameUnitCardWindowPresenter(windowDiv, styleFloatOfBuffPanel)
 		if (Object.values(unit.effects).some(value => value === true))
 		{
 			message +=(`<div class="battle-unit-card-window-text" style="color: #FFFFFF" > ` + title + `</div>`)
-			if (unit.effects.isOnBarrier) message += (`<div class="battle-unit-card-window-text-buff">` + ` <img src="buff_img/barrier.png">` + " Барьер (не повреждаемый)" + `</div>`)
-			if (unit.effects.isOnFreeze) message+=(`<div class="battle-unit-card-window-text-buff">` + ` <img src="buff_img/freeze.png">` + " Заморозка (не атакует, не двигается)" + `</div>`)
-			if (unit.effects.isOnPoison) message+=(`<div class="battle-unit-card-window-text-buff">` + ` <img src="buff_img/poison.png">` + " Яд (подвинтесь для снятия) (не атакует, урон каждый ход)" + `</div>`)
-			if (unit.effects.isOnArmor) message+=(`<div class="battle-unit-card-window-text-buff">` + ` <img src="buff_img/armor.png">` + " Броня (+30)" + `</div>`)
+			if (unit.effects.isOnBarrier) message += (`<div class="battle-unit-card-window-text-buff">` + ` <img src="buff_img/barrier.png"> ` + spellNames.barrier + ` (не повреждаемый) </div>`)
+			if (unit.effects.isOnFreeze) message+=(`<div class="battle-unit-card-window-text-buff">` + ` <img src="buff_img/freeze.png"> ` + spellNames.freeze +  ` (не атакует, не двигается) </div>`)
+			if (unit.effects.isOnPoison) message+=(`<div class="battle-unit-card-window-text-buff">` + ` <img src="buff_img/poison.png"> ` + spellNames.poison + ` (подвинтесь для снятия) (не атакует, урон каждый ход) </div>`)
+			if (unit.effects.isOnArmor) message+=(`<div class="battle-unit-card-window-text-buff">` + `<img src="buff_img/armor.png"> ` + spellNames.armor + `</div>`)
 		}
 		return message;
 	}
