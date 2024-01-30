@@ -20,9 +20,12 @@ function GameUnitCardWindowPresenter(windowDiv, styleFloatOfBuffPanel)
 		let cooldownConfigSubtableArray = this.fillCooldownConfigSubtableArray(unit, unitCard);
 		let cooldownCurrentSubtableArray = this.fillCooldownCurrentSubtableArray(unit);
 
+		
 		let frontBlockPropertySubtableArray = this.fillColoredPercentPropertySubtableArray("Блок спереди:", unitCard.blockFront * 100);
 		let sideBlockPropertySubtableArray = this.fillColoredPercentPropertySubtableArray("Блок сбоку:", unitCard.blockSide * 100);
 		let armorPropertySubtableArray = this.fillColoredPercentPropertySubtableArray("Броня:", CalculateUnitFinalArmorPercent(unitCard, unit.effects));
+
+		let buffCurrentSubtableArray = this.buffCurrentSubtableArray("Примененные способности: ", unit);
 
 		// todo NOTE вместо "container" сделано на display: table; + display: table-row; + display: table-cell;
 		// todo NOTE что делает авто-ширину колонок
@@ -75,10 +78,16 @@ function GameUnitCardWindowPresenter(windowDiv, styleFloatOfBuffPanel)
 						<div class="col-2">` + armorPropertySubtableArray[1] + `</div>
 					</div>
 				</div>
+				
+			</div></div><div class="row" style="margin-top: 2px; float: ` + this.styleFloatOfBuffPanel + `;"><div class="col-12">
 			</div></div>`
-			+ // todo баффы ..
-			`<div class="row" style="margin-top: 2px; float: ` + this.styleFloatOfBuffPanel + `;"><div class="col-12">
-			</div></div>`
+			+ 
+			`<div class="row" style="margin-top: 5px;"><div class="col-12">
+				<div style="background-color: #000000B4" class="container-table rounded">` +
+			buffCurrentSubtableArray +`
+			</div>
+			</div>`
+			
 		);
 
 		this.windowDiv.removeClass("invisible");
@@ -151,5 +160,18 @@ function GameUnitCardWindowPresenter(windowDiv, styleFloatOfBuffPanel)
 			``,
 			``
 			];
+	}
+	this.buffCurrentSubtableArray = function(title, unit)
+	{
+		let message = '';
+		if (Object.values(unit.effects).some(value => value === true))
+		{
+			message +=(`<div class="battle-unit-card-window-text" style="color: #FFFFFF" > ` + title + `</div>`)
+			if (unit.effects.isOnBarrier) message += (`<div class="battle-unit-card-window-text-buff">` + ` <img src="buff_img/barrier.png">` + " Барьер (не повреждаемый)" + `</div>`)
+			if (unit.effects.isOnFreeze) message+=(`<div class="battle-unit-card-window-text-buff">` + ` <img src="buff_img/freeze.png">` + " Заморозка (не атакует, не двигается)" + `</div>`)
+			if (unit.effects.isOnPoison) message+=(`<div class="battle-unit-card-window-text-buff">` + ` <img src="buff_img/poison.png">` + " Яд (подвинтесь для снятия) (не атакует, урон каждый ход)" + `</div>`)
+			if (unit.effects.isOnArmor) message+=(`<div class="battle-unit-card-window-text-buff">` + ` <img src="buff_img/armor.png">` + " Броня (+30)" + `</div>`)
+		}
+		return message;
 	}
 }

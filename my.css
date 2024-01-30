@@ -1,5 +1,6 @@
 .container-table {
   display: table;
+  width: 500px;
 }
 .container-table>.row {
   display: table-row;
@@ -17,3 +18,7 @@
 .battle-unit-card-window-text-attack {
   color: #FF6767
 }
+.battle-unit-card-window-text-buff {
+  color: #FFEA88
+}
+

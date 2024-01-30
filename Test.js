@@ -10,8 +10,8 @@ function OnStartup()
 	
 	// todo вызов Одного из Тестов для отображения в UI
 	//TestArcher1();
-	TestDeadcountess1();
-	//TestArcher2();
+	//TestDeadcountess1();
+	TestArcher2();
 }
 
 // карта (конфиг) всех юнитов типа Лучник
