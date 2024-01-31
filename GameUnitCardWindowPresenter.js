@@ -25,7 +25,7 @@ function GameUnitCardWindowPresenter(windowDiv, styleFloatOfBuffPanel)
 		let sideBlockPropertySubtableArray = this.fillColoredPercentPropertySubtableArray("Блок сбоку:", unitCard.blockSide * 100);
 		let armorPropertySubtableArray = this.fillColoredPercentPropertySubtableArray("Броня:", CalculateUnitFinalArmorPercent(unitCard, unit.effects));
 
-		let buffCurrentSubtableString = this.buffCurrentSubtableString("Примененные способности: ", unit);
+		let buffCurrentSubtableString = this.fillbuffCurrentSubtableString("Примененные способности: ", unit);
 
 		// todo NOTE вместо "container" сделано на display: table; + display: table-row; + display: table-cell;
 		// todo NOTE что делает авто-ширину колонок
@@ -174,7 +174,7 @@ function GameUnitCardWindowPresenter(windowDiv, styleFloatOfBuffPanel)
 			``
 			];
 	}
-	this.buffCurrentSubtableString = function(title, unit)
+	this.fillbuffCurrentSubtableString = function(title, unit)
 	{
 		let message = '';
 		if (Object.values(unit.effects).some(value => value === true))
