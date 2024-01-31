@@ -6,5 +6,6 @@ var spellNames = {
 	"freeze": "Заморозка",
 	"poison": "Яд",
 	"armor": "Броня +" + spellsConfig.MasterOltrodor_ArmorIncreasePercent + "%",
-	"summon": "Призыв трупов"
+	"summon": "Призыв трупов",
+	"heal": "Лечение"
 };

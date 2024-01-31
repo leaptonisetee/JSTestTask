@@ -25,7 +25,7 @@ function GameUnitCardWindowPresenter(windowDiv, styleFloatOfBuffPanel)
 		let sideBlockPropertySubtableArray = this.fillColoredPercentPropertySubtableArray("Блок сбоку:", unitCard.blockSide * 100);
 		let armorPropertySubtableArray = this.fillColoredPercentPropertySubtableArray("Броня:", CalculateUnitFinalArmorPercent(unitCard, unit.effects));
 
-		let buffCurrentSubtableArray = this.buffCurrentSubtableArray("Примененные способности: ", unit);
+		let buffCurrentSubtableString = this.buffCurrentSubtableString("Примененные способности: ", unit);
 
 		// todo NOTE вместо "container" сделано на display: table; + display: table-row; + display: table-cell;
 		// todo NOTE что делает авто-ширину колонок
@@ -84,7 +84,7 @@ function GameUnitCardWindowPresenter(windowDiv, styleFloatOfBuffPanel)
 			+ 
 			`<div class="row" style="margin-top: 5px;"><div class="col-12">
 				<div style="background-color: #000000B4" class="container-table rounded">` +
-			buffCurrentSubtableArray +`
+			buffCurrentSubtableString +`
 			</div>
 			</div>`
 			
@@ -105,24 +105,37 @@ function GameUnitCardWindowPresenter(windowDiv, styleFloatOfBuffPanel)
 	this.fillAttackSubtableArray = function(unit, unitCard)
 	{
 		let critChanceColorStyle = (unitCard.critChance > 0 ? attackColorStyle : grayColorStyle);
-		if (unit.type == 'deadcountess') //и другие типы врагов
-		return [
-			`<span class="battle-unit-card-window-text-attack">Атака - Заморозка</span>`,
-			``,
-			`<span class="battle-unit-card-window-text-attack">Дальность атаки:</span>`,
-			`<span class="battle-unit-card-window-text-attack">` + unitCard.range + `</span>`,
-			``,
-			``	
-		]
-		else
-		return [
+		let attackArray = [
 			`<span class="battle-unit-card-window-text-attack">Атака:</span>`,
-			`<span class="battle-unit-card-window-text-attack">` + unitCard.strength + `</span>`,
+			(() => {
+				if (unit.type == "deadcountess") 
+					return `<span class="battle-unit-card-window-text-attack">` + spellNames.freeze + `</span>`;
+				else if (unit.type == "healer")
+					return `<span class="battle-unit-card-window-text-attack">` + spellNames.heal + `</span>`;
+				else
+					return `<span class="battle-unit-card-window-text-attack">` +  unitCard.strength + `</span>`;
+			})(),
 			`<span class="battle-unit-card-window-text-attack">Дальность атаки:</span>`,
 			`<span class="battle-unit-card-window-text-attack">` + unitCard.range + `</span>`,
-			`<span class="battle-unit-card-window-text" style="color: ` + critChanceColorStyle + `">Шанс крита:</span>`,
-			`<span class="battle-unit-card-window-text" style="color: ` + critChanceColorStyle + `">` + (unitCard.critChance * 100 + "%") + `</span>`,
+			(() => {
+				if (unit.type == "deadcountess") 
+					return ``;
+				else if (unit.type == "healer")
+					return `<span class="battle-unit-card-window-text-attack">Всех союзников на карте</span>`
+				else
+					return `<span class="battle-unit-card-window-text" style="color: ` + critChanceColorStyle + `">Шанс крита:</span>`;		
+			})(),
+			(() => {
+				if (unit.type == "deadcountess") 
+					return ``;
+				else if (unit.type == "healer")
+					return ``;
+				else
+					return 	`<span class="battle-unit-card-window-text" style="color: ` + critChanceColorStyle + `">` + (unitCard.critChance * 100 + "%") + `</span>`;		
+			})()
 		];
+
+		return attackArray;
 		
 	}
 
@@ -161,16 +174,17 @@ function GameUnitCardWindowPresenter(windowDiv, styleFloatOfBuffPanel)
 			``
 			];
 	}
-	this.buffCurrentSubtableArray = function(title, unit)
+	this.buffCurrentSubtableString = function(title, unit)
 	{
 		let message = '';
 		if (Object.values(unit.effects).some(value => value === true))
 		{
 			message +=(`<div class="battle-unit-card-window-text" style="color: #FFFFFF" > ` + title + `</div>`)
+			if (unit.effects.isOnFocus) message += (`<div class="battle-unit-card-window-text-buff">` + ` <img src="buff_img/focus.png"> ` + spellNames.focus + `</div>`)
 			if (unit.effects.isOnBarrier) message += (`<div class="battle-unit-card-window-text-buff">` + ` <img src="buff_img/barrier.png"> ` + spellNames.barrier + ` (не повреждаемый) </div>`)
-			if (unit.effects.isOnFreeze) message+=(`<div class="battle-unit-card-window-text-buff">` + ` <img src="buff_img/freeze.png"> ` + spellNames.freeze +  ` (не атакует, не двигается) </div>`)
-			if (unit.effects.isOnPoison) message+=(`<div class="battle-unit-card-window-text-buff">` + ` <img src="buff_img/poison.png"> ` + spellNames.poison + ` (подвинтесь для снятия) (не атакует, урон каждый ход) </div>`)
-			if (unit.effects.isOnArmor) message+=(`<div class="battle-unit-card-window-text-buff">` + `<img src="buff_img/armor.png"> ` + spellNames.armor + `</div>`)
+			if (unit.effects.isOnFreeze) message += (`<div class="battle-unit-card-window-text-buff">` + ` <img src="buff_img/freeze.png"> ` + spellNames.freeze +  ` (не атакует, не двигается) </div>`)
+			if (unit.effects.isOnPoison) message += (`<div class="battle-unit-card-window-text-buff">` + ` <img src="buff_img/poison.png"> ` + spellNames.poison + ` (подвинтесь для снятия) (не атакует, урон каждый) </div>`)
+			if (unit.effects.isOnArmor) message += (`<div class="battle-unit-card-window-text-buff">` + `<img src="buff_img/armor.png"> ` + spellNames.armor + `</div>`)
 		}
 		return message;
 	}

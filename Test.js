@@ -8,10 +8,10 @@ function OnStartup()
 	windowPresenterRight = new GameUnitCardWindowPresenter($("#battle-unit-card-window-right"), 'right');
 	
 	
-	// todo вызов Одного из Тестов для отображения в UI
-	//TestArcher1();
-	//TestDeadcountess1();
-	TestArcher2();
+	TestArcher1();
+//	TestDeadcountess1();
+//	TestArcher2();
+	//TestHealer();
 }
 
 // карта (конфиг) всех юнитов типа Лучник
@@ -49,6 +49,24 @@ var unitCardDeadcountess = {
 	cooldownMove: 1,
 	cooldownAttack: 2,
 };
+
+var unitCardHealer = {
+	blockFront: 0.00,
+	blockSide: 0.00,
+	armor: 0.00,
+	
+	isAlive: true,
+	isUncontrollable: false,
+	moveDistance: 3,
+	
+	strength: 0, // NOTE применяет способность лечения
+	range: 2,
+	critChance: 0.000, //NOTE доложно отображать вместо шанса крита всех союзников на карте
+	
+	cooldownMove: 1,
+	cooldownAttack: 2,
+};
+
 
 function TestArcher1()
 {
@@ -107,6 +125,25 @@ function TestArcher2()
 			isOnArmor: true,	// todo баффы должны отображаться
 		},
 	};
-	
 	windowPresenterLeft.Show(unit, unitCardArcher);
+
 }
+function TestHealer()
+{
+	// инстанс юнита - Лучник
+	let unit = {
+		type: "healer",
+		currentHealth: 30,
+		health: 40,
+		cooldown: 0, // !
+		effects: {
+			isOnFocus: false,
+			isOnBarrier: false,	// todo баффы должны отображаться
+			isOnFreeze: false,	// todo баффы должны отображаться
+			isOnPoison: false,	// todo баффы должны отображаться
+			isOnArmor: false,	// todo баффы должны отображаться
+		},
+	};
+	
+	windowPresenterLeft.Show(unit, unitCardHealer);
+};
