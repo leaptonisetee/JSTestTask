@@ -107,33 +107,26 @@ function GameUnitCardWindowPresenter(windowDiv, styleFloatOfBuffPanel)
 		let critChanceColorStyle = (unitCard.critChance > 0 ? attackColorStyle : grayColorStyle);
 		let attackArray = [
 			`<span class="battle-unit-card-window-text-attack">Атака:</span>`,
-			(() => {
-				if (unit.type == "deadcountess") 
-					return `<span class="battle-unit-card-window-text-attack">` + spellNames.freeze + `</span>`;
-				else if (unit.type == "healer")
-					return `<span class="battle-unit-card-window-text-attack">` + spellNames.heal + `</span>`;
-				else
-					return `<span class="battle-unit-card-window-text-attack">` +  unitCard.strength + `</span>`;
-			})(),
+			`<span class="battle-unit-card-window-text-attack">` +  unitCard.strength + `</span>`,
 			`<span class="battle-unit-card-window-text-attack">Дальность атаки:</span>`,
 			`<span class="battle-unit-card-window-text-attack">` + unitCard.range + `</span>`,
-			(() => {
-				if (unit.type == "deadcountess") 
-					return ``;
-				else if (unit.type == "healer")
-					return `<span class="battle-unit-card-window-text-attack">Всех союзников на карте</span>`
-				else
-					return `<span class="battle-unit-card-window-text" style="color: ` + critChanceColorStyle + `">Шанс крита:</span>`;		
-			})(),
-			(() => {
-				if (unit.type == "deadcountess") 
-					return ``;
-				else if (unit.type == "healer")
-					return ``;
-				else
-					return 	`<span class="battle-unit-card-window-text" style="color: ` + critChanceColorStyle + `">` + (unitCard.critChance * 100 + "%") + `</span>`;		
-			})()
+			`<span class="battle-unit-card-window-text" style="color: ` + critChanceColorStyle + `">Шанс крита:</span>`,
+			`<span class="battle-unit-card-window-text" style="color: ` + critChanceColorStyle + `">` + (unitCard.critChance * 100 + "%") + `</span>`
 		];
+		if (unit.type == "deadcountess")
+		{
+			attackArray[1] = `<span class="battle-unit-card-window-text-attack">` + spellNames.freeze + `</span>`;
+			attackArray[4] = ``
+			attackArray[5] = ``
+		} 
+		if (unit.type == "healer")
+		{
+			attackArray[1] = `<span class="battle-unit-card-window-text-attack">` + spellNames.heal + `</span>`;
+			attackArray[4] = `<span class="battle-unit-card-window-text-attack">Всех союзников на карте</span>`;
+			attackArray[5] = ``
+
+		}
+
 
 		return attackArray;
 		

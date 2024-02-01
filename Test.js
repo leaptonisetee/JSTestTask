@@ -8,9 +8,9 @@ function OnStartup()
 	windowPresenterRight = new GameUnitCardWindowPresenter($("#battle-unit-card-window-right"), 'right');
 	
 	
-	TestArcher1();
-//	TestDeadcountess1();
-//	TestArcher2();
+	//TestArcher1();
+	TestDeadcountess1();
+	//TestArcher2();
 	//TestHealer();
 }
 
@@ -130,7 +130,7 @@ function TestArcher2()
 }
 function TestHealer()
 {
-	// инстанс юнита - Лучник
+	// инстанс юнита - Лекарь
 	let unit = {
 		type: "healer",
 		currentHealth: 30,
