@@ -39,7 +39,7 @@ function GameUnitCardWindowPresenter(windowDiv, styleFloatOfBuffPanel)
 			<div class="row" style="margin-top: 6px;"><div class="col-12">
 				<div style="background-color: #000000B4" class="container-table rounded">
 					<div class="row">
-						<div class="col-12"><span class="battle-unit-card-window-text text-white" style="border-bottom: 1px solid #FFF;">` + unitNames[unit.type].toUpperCase() + `</span></div>
+						<div class="col-12"><span class="battle-unit-card-window-text text-white" style="border-bottom: 1px solid #FFF;">` + unitNames[unit.type].name.toUpperCase() + `</span></div>
 					</div>
 					<div class="row">
 						<div class="col-5"><span class="battle-unit-card-window-text" style="color: #FFFFFFB0">` + (unitCard.isAlive ? "Одушевлённый" : "Неодушевлённый") + `</span></div>
@@ -107,25 +107,26 @@ function GameUnitCardWindowPresenter(windowDiv, styleFloatOfBuffPanel)
 		let critChanceColorStyle = (unitCard.critChance > 0 ? attackColorStyle : grayColorStyle);
 		let attackArray = [
 			`<span class="battle-unit-card-window-text-attack">Атака:</span>`,
-			`<span class="battle-unit-card-window-text-attack">` +  unitCard.strength + `</span>`,
+			(() => {
+				if (unitNames[unit.type].specialAttack) 
+					return `<span class="battle-unit-card-window-text-attack">` +  unitNames[unit.type].specialAttack + `</span>`;
+				else return `<span class="battle-unit-card-window-text-attack">` +  unitCard.strength + `</span>`
+			})(),
 			`<span class="battle-unit-card-window-text-attack">Дальность атаки:</span>`,
 			`<span class="battle-unit-card-window-text-attack">` + unitCard.range + `</span>`,
-			`<span class="battle-unit-card-window-text" style="color: ` + critChanceColorStyle + `">Шанс крита:</span>`,
-			`<span class="battle-unit-card-window-text" style="color: ` + critChanceColorStyle + `">` + (unitCard.critChance * 100 + "%") + `</span>`
+			(() => {
+				if (unitNames[unit.type].details) 
+					return `<span class="battle-unit-card-window-text-attack">` +  unitNames[unit.type].details+ `</span>`;
+				else return `<span class="battle-unit-card-window-text" style="color: ` + critChanceColorStyle + `">Шанс крита:</span>`
+			})(),
+			(() => {
+				if (unitNames[unit.type].details) 
+					return ``;
+				else return `<span class="battle-unit-card-window-text" style="color: ` + critChanceColorStyle + `">` + (unitCard.critChance * 100 + "%") + `</span>`
+			})(),
+	
 		];
-		if (unit.type == "deadcountess")
-		{
-			attackArray[1] = `<span class="battle-unit-card-window-text-attack">` + spellNames.freeze + `</span>`;
-			attackArray[4] = ``
-			attackArray[5] = ``
-		} 
-		if (unit.type == "healer")
-		{
-			attackArray[1] = `<span class="battle-unit-card-window-text-attack">` + spellNames.heal + `</span>`;
-			attackArray[4] = `<span class="battle-unit-card-window-text-attack">Всех союзников на карте</span>`;
-			attackArray[5] = ``
-
-		}
+		
 
 
 		return attackArray;
